@@ -11,6 +11,7 @@ import {
   useNavigation,
   useSubmit
 } from "@remix-run/react";
+
 import type {LinksFunction, LoaderFunctionArgs, MetaFunction} from "@remix-run/node";
 import {json, redirect} from "@remix-run/node";
 import appStylesHref from "./app.css";
@@ -22,9 +23,7 @@ export const action = async () => {
   return redirect(`/contacts/${contact.id}/edit`);
 };
 
-export const loader = async ({
-                               request,
-                             }: LoaderFunctionArgs) => {
+export const loader = async ({request}: LoaderFunctionArgs) => {
   const url = new URL(request.url);
   const q = url.searchParams.get("q");
   const contacts = await getContacts(q);
@@ -44,11 +43,12 @@ export const meta: MetaFunction = () => {
   return [
     {
       title: "Remix Starter by Guiga",
-      description: "Welcome to remix!"
+      description: "Welcome to remix!",
+      charset: "utf-8",
+      viewport: "width=device-width, initial-scale=1",
     },
   ];
 }
-
 
 export default function App() {
   const {contacts, q} = useLoaderData<typeof loader>();
